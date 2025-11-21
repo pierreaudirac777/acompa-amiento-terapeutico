@@ -161,3 +161,12 @@ body {
   text-align: justify !important;
   text-justify: inter-word;
 }
+/* Centrar los títulos de las tarjetas del blog */
+.blog-grid .post.card h3 {
+  text-align: center !important;
+  width: 100%;
+  display: block;
+}
+.blog-grid .post.card h3 {
+  color: #0b3a5b !important;  /* azul oscuro elegante */
+}
