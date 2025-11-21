@@ -397,14 +397,38 @@ body {
   color: var(--text);
   border: 1px solid rgba(2, 6, 23, .08);
 }
-
+/* ====== Footer ====== */
 /* ====== Footer ====== */
 .site-footer {
-  padding: 28px 0;
   background: #0ea5a6;
   border-top: 1px solid #e2e8f0;
   margin-top: 40px;
+
+  padding: 2px 0;          /* antes 4px → ahora MUY fino */
+  text-align: center;
+  font-size: 12px;         /* más pequeño */
+  line-height: 1.1;        /* casi sin aire entre líneas */
 }
+
+.site-footer p {
+  margin: 0;               /* SIN margen extra */
+}
+
+.site-footer .container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.site-footer a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-size: 12px;
+  display: inline-block;
+  margin-top: 2px;         /* un pelín de separación con la línea de arriba */
+}
+
+
+
 
 .footer-inner {
   display: flex;
@@ -576,3 +600,4 @@ html, body {
   justify-content: center;
   align-items: center;
 }
+Unificar footer en todas las páginas y actualizar estilos
