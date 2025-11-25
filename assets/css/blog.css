@@ -31,7 +31,17 @@
   display: flex;
   flex-direction: column;
 }
-
+.post.card .link {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 600;
+  color: #344683;  /* ← COLOR OSCURO */
+  text-decoration: none;
+  transition: color .3s ease;
+}
+.post.card .link:hover {
+  color: #0ea5a6; /* tu color turquesa al pasar el mouse */
+}
 
 /* Imagen dentro de la tarjeta */
 .post.card .thumb img {
@@ -169,4 +179,17 @@ body {
 }
 .blog-grid .post.card h3 {
   color: #0b3a5b !important;  /* azul oscuro elegante */
+}
+/* Enlace "Volver al blog" con color oscuro */
+.volver-blog {
+  display: inline-block;
+  margin-top: 24px;
+  font-weight: 600 !important;
+  color: #344683 !important;  /* ← ahora sí se aplica */
+  text-decoration: none;
+  transition: color .3s ease;
+}
+
+.volver-blog:hover {
+  color: #0ea5a6 !important; /* turquesa al pasar el mouse */
 }
