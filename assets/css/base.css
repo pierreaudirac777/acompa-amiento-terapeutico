@@ -9,7 +9,7 @@
   --bg: #060808;
 
   /* Marca y mi nombre */
-  --primary: #0ea5a6;
+  --primary: #1a7da6;
   /* turquesa */
   --primary-dark: #44aa69;
   /* azul petróleo */
@@ -555,11 +555,29 @@ html, body {
 }
 
 /* Contenedor del header */
-.site-header .header-inner {
+.header-inner {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Menú centrado */
+.center-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 40px;
+}
+
+/* Redes sociales a la derecha */
+.social-icons {
+  display: flex;
+  gap: 14px;
   align-items: center;
 }
+
 
 /* Mensajes de error de formulario */
 .error-msg {
@@ -568,12 +586,33 @@ html, body {
   color: #c0392b;
   margin-top: 0.25rem;
 }
-/* Bloque de redes sociales en el header */
-.social-header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+
+
+.social-icons img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  opacity: 0.9;
+  transition: opacity .2s ease, transform .2s ease;
 }
+
+/* Hacemos un pelín más grande el de Facebook */
+.social-icons img.icon-facebook {
+  transform: scale(1.2);
+}
+
+/* Hover general */
+.social-icons img:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+/* Ajuste del hover SOLO para Facebook (suma al zoom base) */
+.social-icons img.icon-facebook:hover {
+  transform: scale(1.25);
+}
+
 
 .social-header img {
   width: 24px;
@@ -608,4 +647,15 @@ textarea {
   flex-direction: column;
   gap: 8px;
   margin-top: 16px;
+}
+/* Logo en el header */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 44px;        /* tamaño del logo en la barra negra */
+  width: auto;
+  border-radius: 10px; /* opcional, queda bonito con esquinas suaves */
 }
