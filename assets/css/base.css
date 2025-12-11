@@ -672,7 +672,7 @@ textarea {
 
   /* El logo un poco más pequeño en móvil */
   .logo img {
-    height: 60px;
+    height: 70px;
   }
 
   /* El menú deja de ser absolute y se centra normal */
@@ -694,5 +694,61 @@ textarea {
   .social-icons img {
     width: 26px;
     height: 26px;
+  }
+}
+/* ===== Layout del formulario de contacto ===== */
+.contact-form {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.contact-form .form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.contact-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-form .form-field-full {
+  grid-column: 1 / -1;
+}
+
+.contact-form label {
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Desktop:  
+   1: Nombre | 2: Email | 3: País  
+   4: Teléfono | 5: Mensaje (ocupa 2 columnas) */
+.contact-form .form-field:nth-child(1) { grid-column: 1 / 2; }
+.contact-form .form-field:nth-child(2) { grid-column: 2 / 3; }
+.contact-form .form-field:nth-child(3) { grid-column: 3 / 4; }
+.contact-form .form-field:nth-child(4) { grid-column: 1 / 2; }
+.contact-form .form-field:nth-child(5) { grid-column: 2 / 4; }
+
+/* Móvil: una sola columna */
+@media (max-width: 768px) {
+  .contact-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form .form-field:nth-child(1),
+  .contact-form .form-field:nth-child(2),
+  .contact-form .form-field:nth-child(3),
+  .contact-form .form-field:nth-child(4),
+  .contact-form .form-field:nth-child(5) {
+    grid-column: 1 / -1;
   }
 }
