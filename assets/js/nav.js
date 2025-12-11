@@ -1,5 +1,9 @@
+// nav.js
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Toggle "Leer más"
+  // =============================
+  // 1. Botones "Leer más"
+  // =============================
   document.querySelectorAll('.more-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const sel = btn.getAttribute('data-target');
@@ -8,99 +12,170 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Año en el footer
+  // =============================
+  // 2. Año en el footer
+  // =============================
   const anio = document.getElementById('anio');
-  if (anio) anio.textContent = new Date().getFullYear();
-});
-const blog = document.querySelector('main .blog-grid');
-if (blog) {
-  blog.addEventListener('click', (e) => {
-    const a = e.target.closest('a'); 
-    if (!a || !blog.contains(a)) return;
-    // ... lógica del blog ...
-  });
-}
-document.addEventListener('DOMContentLoaded', () => {
-  // Toggle "Leer más"
-  document.querySelectorAll('.more-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sel = btn.getAttribute('data-target');
-      const box = document.querySelector(sel);
-      if (box) box.classList.toggle('is-open'); 
+  if (anio) {
+    anio.textContent = new Date().getFullYear();
+  }
+
+  // =============================
+  // 3. Delegación de clics en el grid del blog
+  // =============================
+  const blogGrid = document.querySelector('main .blog-grid');
+  if (blogGrid) {
+    blogGrid.addEventListener('click', (e) => {
+      const a = e.target.closest('a');
+      if (!a || !blogGrid.contains(a)) return;
+      // Aquí podrías añadir lógica extra si quisieras
     });
-  }); 
+  }
 
-  // Año en el footer
-  const anio = document.getElementById('anio');
-  if (anio) anio.textContent = new Date().getFullYear();
-
-  // Lógica del blog
-  const blog = document.querySelector('main .blog-grid');
-  if (!blog) return;  // ✅ aquí sí se puede usar return porque estás dentro de una función (la del callback)
-  blog.addEventListener('click', (e) => {
-    const a = e.target.closest('a'); 
-    if (!a || !blog.contains(a)) return;
-    // ... lógica del blog ...
-  });
-}); 
-document.addEventListener('DOMContentLoaded', () => {
-  // ... aquí dejas lo que ya tenías: Leer más, año del footer, blog, etc. ...
-
+  // =============================
+  // 4. Validación de formulario de contacto
+  // =============================
   const form = document.getElementById('contact-form');
-  if (!form) return; // Si no estamos en la página de contacto, salimos.
+  if (form) {
+    const phoneInput    = document.getElementById('telefono');          // <input id="telefono">
+    const phoneError    = document.getElementById('error-telefono');    // <p id="error-telefono">
+    const countrySelect = document.getElementById('pais');              // <select id="pais">
 
-  const nameInput = form.querySelector('input[name="name"]');
-  const phoneInput = form.querySelector('input[name="phone"]');
-  const nameError = document.getElementById('name-error');
-  const phoneError = document.getElementById('phone-error');
+    // Prefijos internacionales por país (coinciden con los value del <select id="pais">)
+    const countryPrefixes = {
+      mx: '+52',
+      ar: '+54',
+      co: '+57',
+      gt: '+502',
+      ve: '+58',
+      pr: '+1',
 
-  form.addEventListener('submit', (e) => {
-    let isValid = true;
+      es: '+34',
+      fr: '+33',
+      de: '+49',
+      it: '+39',
+      uk: '+44',
+      nl: '+31',
+      pt: '+351',
+      gr: '+30',
+      se: '+46',
+      no: '+47',
+      fi: '+358',
+      dk: '+45',
+      be: '+32',
+      at: '+43',
 
-    // Reset de mensajes
-    if (nameError) nameError.textContent = '';
-    if (phoneError) phoneError.textContent = '';
+      al: '+355',
+      by: '+375',
+      ba: '+387',
+      bg: '+359',
+      cz: '+420',
+      cy: '+357',
+      hr: '+385',
+      sk: '+421',
+      si: '+386',
+      ee: '+372',
+      lv: '+371',
+      lt: '+370',
+      lu: '+352',
+      md: '+373',
+      mk: '+389',
+      pl: '+48',
+      ro: '+40',
+      rs: '+381',
+      me: '+382',
+      ua: '+380',
+      ru: '+7',
 
-    // --- Validación del NOMBRE ---
-    if (nameInput) {
-      const nameValue = nameInput.value.trim();
-      const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ\s]{2,50}$/;
+      ad: '+376',
+      li: '+423',
+      mt: '+356',
+      mc: '+377',
+      sm: '+378',
 
-      if (!nameRegex.test(nameValue)) {
-        isValid = false;
-        if (nameError) {
-          nameError.textContent = 'El nombre solo puede contener letras y espacios (mínimo 2 caracteres).';
+      uz: '+998'
+    };
+
+    // Regla internacional E.164:
+    // + seguido de 9 a 15 dígitos en total
+    const intlRegex = /^\+[1-9]\d{8,14}$/;
+
+    function validarTelefono() {
+      if (!phoneInput) return true;
+
+      const raw       = phoneInput.value.trim();
+      const sanitized = raw.replace(/\s+/g, '');
+
+      // Campo vacío -> inválido (es required)
+      if (!sanitized) {
+        if (phoneError) {
+          phoneError.textContent = 'Introduce tu número de teléfono en formato internacional.';
+          phoneError.style.display = 'block';
         }
+        phoneInput.setCustomValidity('Número requerido');
+        return false;
       }
+
+      const valido = intlRegex.test(sanitized);
+
+      if (!valido) {
+        if (phoneError) {
+          phoneError.textContent =
+            'Introduce un número internacional válido en formato +[código][número]. ' +
+            'Por ejemplo: +34 XXXXXXX o +52 XXXXXXX.';
+          phoneError.style.display = 'block';
+        }
+        phoneInput.setCustomValidity('Número internacional inválido');
+        return false;
+      }
+
+      // Si todo OK, limpiamos errores
+      if (phoneError) {
+        phoneError.textContent = '';
+        phoneError.style.display = 'none';
+      }
+      phoneInput.setCustomValidity('');
+      return true;
     }
 
-    // --- Validación del TELÉFONO (España) ---
-    if (phoneInput) {
-      const raw = phoneInput.value.trim();
+    // Autocompletar prefijo al cambiar de país
+    if (countrySelect && phoneInput) {
+      countrySelect.addEventListener('change', () => {
+        const code   = countrySelect.value;
+        const prefix = countryPrefixes[code];
+        if (!prefix) return;
 
-      // Si está vacío, lo dejamos pasar (si quieres que sea obligatorio, cambia esto)
-      if (raw !== '') {
-        // Eliminamos espacios
-        const sanitized = raw.replace(/\s+/g, '');
+        const current = phoneInput.value.trim();
 
-        // España:
-        //   - Puede empezar con +34 o no
-        //   - Luego 9 dígitos
-        //   - Empezando por 6, 7, 8 o 9
-        const esRegex = /^(\+34)?[6789]\d{8}$/;
-
-        if (!esRegex.test(sanitized)) {
-          isValid = false;
-          if (phoneError) {
-            phoneError.textContent = 'Introduce un teléfono válido de España (9 dígitos, con o sin +34).';
+        // Si el campo está vacío o no empieza con '+', ponemos el prefijo
+        if (!current || !current.startsWith('+')) {
+          phoneInput.value = prefix;
+        } else {
+          // Si solo había un prefijo anterior (ej: +34), lo reemplazamos
+          if (/^\+\d+$/.test(current)) {
+            phoneInput.value = prefix;
           }
         }
-      }
+
+        phoneInput.focus();
+        phoneInput.setSelectionRange(phoneInput.value.length, phoneInput.value.length);
+        validarTelefono(); // actualiza errores si los hubiera
+      });
     }
 
-    // Si algo no es válido, bloqueamos el envío
-    if (!isValid) {
-      e.preventDefault();
+    // Validar mientras escribe
+    if (phoneInput) {
+      phoneInput.addEventListener('input', validarTelefono);
     }
-  });
-});
+
+    // Validar al enviar
+    form.addEventListener('submit', (e) => {
+      const telOk = validarTelefono();
+      if (!telOk) {
+        e.preventDefault();
+        // fuerza a que el navegador muestre el mensaje nativo
+        phoneInput && phoneInput.reportValidity();
+      }
+    });
+  } // <-- cierre del if (form)
+});   // <-- cierre de document.addEventListener
